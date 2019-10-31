@@ -29,6 +29,21 @@
         /// </summary>
         public string Contents;
 
+        /// <summary>
+        /// Constructs a Lexeme.
+        /// </summary>
+        /// <param name="token">The abstract representation of this Lexeme.</param>
+        /// <param name="line">The line this Lexeme occurred.</param>
+        /// <param name="column">The column this Lexeme occurred.</param>
+        /// <param name="contents">The concrete representation of this Lexeme.</param>
+        public Lexeme(Token token, int line, int column, string contents)
+        {
+            Token = token;
+            Line = line;
+            Column = column;
+            Contents = contents;
+        }
+
     }
 
 }

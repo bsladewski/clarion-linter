@@ -81,9 +81,35 @@
         View,
         Window,
         
+        // Symbols
+        Asterisk,
+        At,
+        Bar,
+        Colon,
+        Comma,
+        Dollar,
+        DoubleQuote,
+        Exclamation,
+        LeftAngleBracket,
+        LeftCurlyBrace,
+        LeftParen,
+        LeftSquareBracket,
+        Period,
+        Pound,
+        Question,
+        RightAngleBracket,
+        RightCurlyBrace,
+        RightParen,
+        RightSquareBracket,
+        Semicolon,
+        SingleQuote,
+        Tilde,
+
         // Other
-        Indentifier,
         Comment,
+        EOF,
+        EOL,
+        Indentifier,
         WhitespaceTrivia
         
     }
