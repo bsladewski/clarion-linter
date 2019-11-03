@@ -1,4 +1,6 @@
 ﻿using Language;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Clarion
 {
@@ -10,11 +12,31 @@ namespace Clarion
     {
 
         /// <summary>
+        /// Used to read input source code.
+        /// </summary>
+        private StreamReader input;
+
+        /// <summary>
+        /// The current line of input being read.
+        /// </summary>
+        private int line;
+            
+        /// <summary>
+        /// The current column of input being read.
+        /// </summary>
+        private int column;
+
+        /// <summary>
+        /// The current line of code being tokenized.
+        /// </summary>
+        private string lineContents;
+
+        /// <summary>
         /// See <see cref="Language.ILexer.HasNext()"/>
         /// </summary>
         public bool HasNext()
         {
-            throw new System.NotImplementedException();
+            return !string.IsNullOrEmpty(lineContents) || !input.EndOfStream;
         }
 
         /// <summary>
@@ -22,7 +44,33 @@ namespace Clarion
         /// </summary>
         public Lexeme Peek()
         {
-            throw new System.NotImplementedException();
+            // EOF if stream is empty
+            if (!HasNext())
+                return new Lexeme(EOF, line, column, "");
+            // Read first line of input if necessary
+            if (lineContents == null & line == 1 && column == 1)
+                lineContents = input.ReadLine();
+            // EOL if current line is empty
+            if (string.IsNullOrEmpty(lineContents))
+                return new Lexeme(EOL, line, column, "\n");
+            // Find the longest matching Lexeme
+            Lexeme next = null;
+            foreach (Token token in tokens)
+            {
+                Match match = Regex.Match(lineContents, token.Pattern, RegexOptions.IgnoreCase);
+                if (match.Equals(Match.Empty))
+                    continue;
+                else if (next == null || match.Length > next.Contents.Length)
+                    next = new Lexeme(token, line, column, match.Value);
+                else if (match.Length < next.Contents.Length)
+                    continue;
+                else if (token.Keyword)
+                    next = new Lexeme(token, line, column, match.Value);
+            }
+            // Parse error if no maching Lexeme could be found
+            if (next == null)
+                return new Lexeme(ParseError, line, column, lineContents);
+            return next;
         }
 
         /// <summary>
@@ -30,13 +78,56 @@ namespace Clarion
         /// </summary>
         public Lexeme Read()
         {
-            throw new System.NotImplementedException();
+            Lexeme next = Peek();
+            if (next.Token.Equals(ParseError)) // flush the contents of the stream
+            {
+                lineContents = null;
+                input.ReadToEnd();
+            }
+            else if (next.Token.Equals(EOL)) // read the next line of input
+            {
+                lineContents = input.ReadLine();
+                line++;
+                column = 1;
+            }
+            else // consume token contents from current line of input
+            {
+                lineContents = lineContents.Substring(next.Contents.Length);
+                column += next.Contents.Length;
+            }
+            return next;
         }
+
+        /// <summary>
+        /// Constructs a Clarion Lexer on the supplied input stream.
+        /// </summary>
+        /// <param name="input">A stream of Clarion source code.</param>
+        public Lexer(StreamReader input)
+        {
+            this.input = input;
+            line = 1;
+            column = 1;
+        }
+
+        /// <summary>
+        /// End of line token.
+        /// </summary>
+        private static readonly Token EOL = new Token("EOL", null, false, false);
+
+        /// <summary>
+        /// End of file token.
+        /// </summary>
+        private static readonly Token EOF = new Token("EOF", null, false, false);
+
+        /// <summary>
+        /// A token that indicates a parse error occurred.
+        /// </summary>
+        private static readonly Token ParseError = new Token("ParseError", null, false, false);
 
         /// <summary>
         /// Definitions for all Clarion Tokens.
         /// </summary>
-        private readonly Token[] tokens =
+        private static readonly Token[] tokens =
         {
             // Reserved Words
             new Token("Accept",      @"^ACCEPT",                true,  true),
@@ -144,8 +235,6 @@ namespace Clarion
             new Token("Picture",     @"^\@([^\s|\~]+|\~.*\~)+", false, false),
             new Token("String",      @"^\'([^\']|\'\')*\'",     false, false),
             new Token("Whitespace",  @"^\s+",                   false, false),
-            new Token("EOL",         null,                      false, false),
-            new Token("EOF",         null,                      false, false),
         };
 
     }
