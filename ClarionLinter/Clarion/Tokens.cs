@@ -6,7 +6,7 @@ namespace Clarion
     /// <summary>
     /// Contains definitions for all Clarion Tokens.
     /// </summary>
-    class Tokens
+    public class Tokens
     {
     
         /// <summary>
@@ -553,7 +553,7 @@ namespace Clarion
             Backslash, Bang, Bar, Colon, Comma, Dollar, DoubleQuote, Equals, Solidus, LeftAngled,
             LeftCurly, LeftParen, LeftSquare, Minus, Period, Plus, Pound, Question, RightAngled,
             RightCurly, RightParen, RightSquare, Semicolon, SingleQuote, Tilde, Comment,
-            Identifier, Number, Picture, String
+            Identifier, Number, Picture, String, Whitespace
         };
 
     }
