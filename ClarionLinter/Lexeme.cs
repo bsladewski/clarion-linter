@@ -1,11 +1,11 @@
-﻿namespace ClarionLinter
+﻿namespace Language
 {
 
     /// <summary>
     /// A Lexeme combines the abstract and concrete representation of a lexical unit of the
     /// Clarion language.
     /// </summary>
-    class Lexeme
+    public class Lexeme
     {
 
         /// <summary>
@@ -42,6 +42,14 @@
             Line = line;
             Column = column;
             Contents = contents;
+        }
+
+        /// <summary>
+        /// See <see cref="object.ToString()"/>
+        /// </summary>
+        public override string ToString()
+        {
+            return string.Format("<{0} {1}>", Token, Contents);
         }
 
     }
