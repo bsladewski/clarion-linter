@@ -49,7 +49,7 @@
         /// </summary>
         public override string ToString()
         {
-            return string.Format("<{0} {1}>", Token, Contents);
+            return string.Format("<{0}>", Token);
         }
 
     }
