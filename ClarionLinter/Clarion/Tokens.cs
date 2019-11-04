@@ -375,6 +375,11 @@ namespace Clarion
         public static readonly Token Window = new Token("Window", @"^WINDOW", false, true);
 
         /// <summary>
+        /// The '&' symbol.
+        /// </summary>
+        public static readonly Token Ampersand = new Token("Ampersand", @"^\&", false, false);
+
+        /// <summary>
         /// The '*' symbol.
         /// </summary>
         public static readonly Token Asterisk = new Token("Asterisk", @"^\*", false, false);
@@ -400,6 +405,11 @@ namespace Clarion
         public static readonly Token Bar = new Token("Bar", @"^\|", false, false);
 
         /// <summary>
+        /// The '^' symbol.
+        /// </summary>
+        public static readonly Token Carat = new Token("Carat", @"^\^", false, false);
+
+        /// <summary>
         /// The ':' symbol.
         /// </summary>
         public static readonly Token Colon = new Token("Colon", @"^\:", false, false);
@@ -408,6 +418,11 @@ namespace Clarion
         /// The ',' symbol.
         /// </summary>
         public static readonly Token Comma = new Token("Comma", @"^\,", false, false);
+
+        /// <summary>
+        /// The ':=:' symbol.
+        /// </summary>
+        public static readonly Token DeepAssignment = new Token("DeepAssignment", @"^\:\=\:", false, false);
 
         /// <summary>
         /// The '$' symbol.
@@ -455,6 +470,11 @@ namespace Clarion
         public static readonly Token Minus = new Token("Minus", @"^\-", false, false);
 
         /// <summary>
+        /// The '%' symbol.
+        /// </summary>
+        public static readonly Token Percent = new Token("Percent", @"^\%", false, false);
+
+        /// <summary>
         /// The '.' symbol.
         /// </summary>
         public static readonly Token Period = new Token("Period", @"^\.", false, false);
@@ -473,6 +493,11 @@ namespace Clarion
         /// The '?' symbol.
         /// </summary>
         public static readonly Token Question = new Token("Question", @"^\?", false, false);
+
+        /// <summary>
+        /// The '&=' symbol.
+        /// </summary>
+        public static readonly Token ReferenceAssignment = new Token("ReferenceAssignment", @"^\&\=", false, false);
 
         /// <summary>
         /// The '&gt;' symbol.
@@ -508,6 +533,11 @@ namespace Clarion
         /// The '~' symbol.
         /// </summary>
         public static readonly Token Tilde = new Token("Tilde", @"^\~", false, false);
+
+        /// <summary>
+        /// A character literal.
+        /// </summary>
+        public static readonly Token Character = new Token("Character", @"^\<(\s*\d+\s*,\s*)*\s*\d+\s*\>", false, false);
 
         /// <summary>
         /// An end of line comment.
@@ -549,9 +579,10 @@ namespace Clarion
             Or, OrOf, Parent, Procedure, Program, Return, Routine, Section, Self, Then, Times,
             To, Until, While, Xor, Application, Class, Code, Data, Detail, File, Footer, Form,
             Group, Header, Item, Itemize, Join, Map, Menu, MenuBar, Module, OleControl, Option,
-            Queue, Record, Report, Row, Sheet, Tab, Table, ToolBar, View, Window, Asterisk, At,
-            Backslash, Bang, Bar, Colon, Comma, Dollar, DoubleQuote, Equals, Solidus, LeftAngled,
-            LeftCurly, LeftParen, LeftSquare, Minus, Period, Plus, Pound, Question, RightAngled,
+            Queue, Record, Report, Row, Sheet, Tab, Table, ToolBar, View, Window, Ampersand,
+            Asterisk, At, Backslash, Bang, Bar, Carat, Character, Colon, Comma, DeepAssignment,
+            Dollar, DoubleQuote, Equals, Solidus, LeftAngled, LeftCurly, LeftParen, LeftSquare,
+            Minus, Percent, Period, Plus, Pound, Question, ReferenceAssignment, RightAngled,
             RightCurly, RightParen, RightSquare, Semicolon, SingleQuote, Tilde, Comment,
             Identifier, Number, Picture, String, Whitespace
         };
