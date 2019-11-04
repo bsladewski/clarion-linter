@@ -527,7 +527,7 @@ namespace Clarion
         /// <summary>
         /// A Clarion picture token.
         /// </summary>
-        public static readonly Token Picture = new Token("Picture", @"^\@([^\s|\~]+|\~.*\~)+", false, false);
+        public static readonly Token Picture = new Token("Picture", @"^\@([^\s|\~|\(|\)]+|\~.*\~|\(.*\))+", false, false);
 
         /// <summary>
         /// A string literal.
