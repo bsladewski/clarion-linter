@@ -2,15 +2,14 @@
 {
 
     /// <summary>
-    /// A Lexeme combines the abstract and concrete representation of a lexical unit of the
-    /// Clarion language.
+    /// A Lexeme combines the abstract and concrete representation of a lexical unit of a
+    /// programming language.
     /// </summary>
     public class Lexeme
     {
 
         /// <summary>
-        /// An abstract representation of this Lexeme as a lexical unit of the Clarion
-        /// language.
+        /// The abstract representation of this Lexeme as a lexical unit of a programming language.
         /// </summary>
         public readonly Token Token;
 

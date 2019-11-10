@@ -28,13 +28,15 @@ class ClarionLinterCLI
             throw new ArgumentException("No input text supplied");
         // Create a Clarion lexer from the input text
         StreamReader input = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(inputText)));
-        Lexer lexer = new Lexer(input);
+        ClarionLexer lexer = new ClarionLexer(input);
         // Tokenize Clarion source and print results
         while (lexer.HasNext())
         {
             Lexeme lexeme = lexer.Read();
+            if (lexeme.Token.Trivia)
+                continue;
             Console.Write(lexeme);
-            if (lexeme.Token.Equals(Tokens.EOL))
+            if (lexeme.Token.Equals(Token.EOL))
                 Console.WriteLine();
         }
         input.Close();
