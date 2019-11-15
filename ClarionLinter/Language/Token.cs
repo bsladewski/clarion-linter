@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace Language
 {
@@ -7,7 +6,7 @@ namespace Language
     /// <summary>
     /// A Token is an abstract representation of a lexical unit of a programming language.
     /// </summary>
-    [Serializable]
+    [XmlType("token")]
     public class Token
     {
 
@@ -29,7 +28,7 @@ namespace Language
         /// <summary>
         /// A display name for this Token.
         /// </summary>
-        [XmlAttribute("name")]
+        [XmlText]
         public string Name;
 
         /// <summary>
@@ -39,50 +38,52 @@ namespace Language
         public string Pattern;
 
         /// <summary>
-        /// Whether the token is a reserved word. Reserved words cannot be shadowed by identifiers.
+        /// Indicates whether this token is case insensitive.
         /// </summary>
-        [XmlAttribute("reserved")]
-        public bool Reserved;
+        [XmlIgnore]
+        public bool? Insensitive
+        {
+            get { return string.IsNullOrEmpty(_insensitive) ? default(bool?) : bool.Parse(_insensitive); }
+        }
 
         /// <summary>
-        /// Whether the token is a keyword. Keywords may be shadowed by identifiers.
+        /// Used to deserialize whether a token should be matched in a case insensitive way.
+        /// This additional variable is used so we can support undefined case sensitivity.
         /// </summary>
-        [XmlAttribute("keyword")]
-        public bool Keyword;
-
-        /// <summary>
-        /// Whether the token should be omitted from the abstract syntax tree.
-        /// </summary>
-        [XmlAttribute("trivia")]
-        public bool Trivia;
-
+        [XmlAttribute("insensitive")]
+        public string _insensitive;
+        
         /// <summary>
         /// A parameterless constructor that is used when constructing Tokens through
         /// serialization.
         /// </summary>
-        private Token() { }
+        protected Token() { }
 
         /// <summary>
         /// Constructs a new Token.
         /// </summary>
         /// <param name="name">A name for this type of Token.</param>
         /// <param name="pattern">A pattern that matches this Token.</param>
-        /// <param name="reserved">Whether this token represents a reserved word.</param>
-        /// <param name="keyword">Whether this token represents a keyword.</param>
-        public Token(string name, string pattern, bool reserved, bool keyword, bool trivia)
+        /// <param name="insensitive">Indicates whether this token is case insensitive.</param>
+        public Token(string name, string pattern, bool? insensitive)
         {
             Name = name;
             Pattern = pattern;
-            Reserved = reserved;
-            Keyword = keyword;
-            Trivia = trivia;
+            _insensitive = insensitive.HasValue ? insensitive.ToString() : null;
         }
 
         /// <summary>
         /// Constructs a new Token.
         /// </summary>
         /// <param name="name">A name for this type of Token.</param>
-        public Token(string name) : this(name, null, false, false, false) { }
+        /// <param name="pattern">A pattern that matches this Token.</param>
+        public Token(string name, string pattern) : this(name, pattern, null) { }
+
+        /// <summary>
+        /// Constructs a new Token.
+        /// </summary>
+        /// <param name="name">A name for this type of Token.</param>
+        public Token(string name) : this(name, null, null) { }
 
         /// <summary>
         /// <see cref="object.ToString()"/>
@@ -93,5 +94,44 @@ namespace Language
         }
 
     }
+
+    /// <summary>
+    /// A ReservedWord is a word that cannot be used as an identifier.
+    /// They may have special meaning within the language or simply prevent the use of a
+    /// particular identifier (for example, "goto" in the Java programming language).
+    /// </summary>
+    [XmlType("reserved")]
+    public class ReservedWord : Token { }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [XmlType("symbol")]
+    public class Symbol : Token { }
+
+    /// <summary>
+    /// A Literal is a notation for representing a fixed value in source code.
+    /// </summary>
+    [XmlType("literal")]
+    public class Literal : Token { }
+
+    /// <summary>
+    /// Identifiers are user-defined labels for language entities.
+    /// </summary>
+    [XmlType("identifier")]
+    public class Identifier : Token { }
+
+    /// <summary>
+    /// A Keyword is an identifier that has special meaning to a programming language.
+    /// </summary>
+    [XmlType("keyword")]
+    public class Keyword : Identifier { }
+
+    /// <summary>
+    /// Trivia are tokens used only for display purposes.
+    /// They have no semantic meaning and are not used in parsing.
+    /// </summary>
+    [XmlType("trivia")]
+    public class Trivia : Token { }
 
 }

@@ -1,118 +1,111 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<lexical>
-  <tokens>
-    <!-- Reserved Words -->
-    <token name="Accept"      pattern="^ACCEPT"      reserved="true" keyword="true" />
-    <token name="And"         pattern="^AND"         reserved="true" keyword="true" />
-    <token name="Begin"       pattern="^BEGIN"       reserved="true" keyword="true" />
-    <token name="Break"       pattern="^BREAK"       reserved="true" keyword="true" />
-    <token name="By"          pattern="^BY"          reserved="true" keyword="true" />
-    <token name="Case"        pattern="^CASE"        reserved="true" keyword="true" />
-    <token name="Choose"      pattern="^CHOOSE"      reserved="true" keyword="true" />
-    <token name="Compile"     pattern="^COMPILE"     reserved="true" keyword="true" />
-    <token name="Cycle"       pattern="^CYCLE"       reserved="true" keyword="true" />
-    <token name="Do"          pattern="^DO"          reserved="true" keyword="true" />
-    <token name="Else"        pattern="^ELSE"        reserved="true" keyword="true" />
-    <token name="ElsIf"       pattern="^ELSIF"       reserved="true" keyword="true" />
-    <token name="End"         pattern="^END"         reserved="true" keyword="true" />
-    <token name="Execute"     pattern="^EXECUTE"     reserved="true" keyword="true" />
-    <token name="Exit"        pattern="^EXIT"        reserved="true" keyword="true" />
-    <token name="Function"    pattern="^FUNCTION"    reserved="true" keyword="true" />
-    <token name="Goto"        pattern="^GOTO"        reserved="true" keyword="true" />
-    <token name="If"          pattern="^IF"          reserved="true" keyword="true" />
-    <token name="Include"     pattern="^INCLUDE"     reserved="true" keyword="true" />
-    <token name="Loop"        pattern="^LOOP"        reserved="true" keyword="true" />
-    <token name="Member"      pattern="^MEMBER"      reserved="true" keyword="true" />
-    <token name="New"         pattern="^NEW"         reserved="true" keyword="true" />
-    <token name="Not"         pattern="^NOT"         reserved="true" keyword="true" />
-    <token name="Null"        pattern="^NULL"        reserved="true" keyword="true" />
-    <token name="Of"          pattern="^OF"          reserved="true" keyword="true" />
-    <token name="Omit"        pattern="^OMIT"        reserved="true" keyword="true" />
-    <token name="Or"          pattern="^OR"          reserved="true" keyword="true" />
-    <token name="OrOf"        pattern="^OROF"        reserved="true" keyword="true" />
-    <token name="Parent"      pattern="^PARENT"      reserved="true" keyword="true" />
-    <token name="Procedure"   pattern="^PROCEDURE"   reserved="true" keyword="true" />
-    <token name="Program"     pattern="^PROGRAM"     reserved="true" keyword="true" />
-    <token name="Return"      pattern="^RETURN"      reserved="true" keyword="true" />
-    <token name="Routine"     pattern="^ROUTINE"     reserved="true" keyword="true" />
-    <token name="Section"     pattern="^SECTION"     reserved="true" keyword="true" />
-    <token name="Self"        pattern="^SELF"        reserved="true" keyword="true" />
-    <token name="Then"        pattern="^THEN"        reserved="true" keyword="true" />
-    <token name="Times"       pattern="^TIMES"       reserved="true" keyword="true" />
-    <token name="To"          pattern="^TO"          reserved="true" keyword="true" />
-    <token name="Until"       pattern="^UNTIL"       reserved="true" keyword="true" />
-    <token name="While"       pattern="^WHILE"       reserved="true" keyword="true" />
-    <token name="Xor"         pattern="^XOR"         reserved="true" keyword="true" />
-    <!-- Keywords -->
-    <token name="Application" pattern="^APPLICATION" keyword="true" />
-    <token name="Class"       pattern="^CLASS"       keyword="true" />
-    <token name="Code"        pattern="^CODE"        keyword="true" />
-    <token name="Data"        pattern="^DATA"        keyword="true" />
-    <token name="Detail"      pattern="^DETAIL"      keyword="true" />
-    <token name="File"        pattern="^FILE"        keyword="true" />
-    <token name="Footer"      pattern="^FOOTER"      keyword="true" />
-    <token name="Form"        pattern="^FORM"        keyword="true" />
-    <token name="Group"       pattern="^GROUP"       keyword="true" />
-    <token name="Header"      pattern="^HEADER"      keyword="true" />
-    <token name="Item"        pattern="^ITEM"        keyword="true" />
-    <token name="Itemize"     pattern="^ITEMIZE"     keyword="true" />
-    <token name="Join"        pattern="^JOIN"        keyword="true" />
-    <token name="Map"         pattern="^MAP"         keyword="true" />
-    <token name="Menu"        pattern="^MENU"        keyword="true" />
-    <token name="MenuBar"     pattern="^MENUBAR"     keyword="true" />
-    <token name="Module"      pattern="^MODULE"      keyword="true" />
-    <token name="OleControl"  pattern="^OLECONTROL"  keyword="true" />
-    <token name="Option"      pattern="^OPTION"      keyword="true" />
-    <token name="Queue"       pattern="^QUEUE"       keyword="true" />
-    <token name="Record"      pattern="^RECORD"      keyword="true" />
-    <token name="Report"      pattern="^REPORT"      keyword="true" />
-    <token name="Row"         pattern="^ROW"         keyword="true" />
-    <token name="Sheet"       pattern="^SHEET"       keyword="true" />
-    <token name="Tab"         pattern="^TAB"         keyword="true" />
-    <token name="Table"       pattern="^TABLE"       keyword="true" />
-    <token name="ToolBar"     pattern="^TOOLBAR"     keyword="true" />
-    <token name="View"        pattern="^VIEW"        keyword="true" />
-    <token name="Window"      pattern="^WINDOW"      keyword="true" />
-    <!-- Symbols -->
-    <token name="Ampersand"   pattern="^\&amp;" />
-    <token name="Asterisk"    pattern="^\*" />
-    <token name="At"          pattern="^\@" />
-    <token name="Backslash"   pattern="^\\" />
-    <token name="Bang"        pattern="^\!" />
-    <token name="Bar"         pattern="^\|" />
-    <token name="Carat"       pattern="^\^" />
-    <token name="Colon"       pattern="^\:" />
-    <token name="Comma"       pattern="^\," />
-    <token name="DeepAssign"  pattern="^\:\=\:" />
-    <token name="Dollar"      pattern="^\$" />
-    <token name="DoubleQuote" pattern="^\&quot;" />
-    <token name="Equals"      pattern="^\=" />
-    <token name="Solidus"     pattern="^\/" />
-    <token name="LeftAngled"  pattern="^\&lt;" />
-    <token name="LeftCurly"   pattern="^\{" />
-    <token name="LeftParen"   pattern="^\(" />
-    <token name="LeftSquare"  pattern="^\[" />
-    <token name="Minus"       pattern="^\-" />
-    <token name="Percent"     pattern="^\%" />
-    <token name="Period"      pattern="^\." />
-    <token name="Plus"        pattern="^\+" />
-    <token name="Pound"       pattern="^\#" />
-    <token name="Question"    pattern="^\?" />
-    <token name="RefAssign"   pattern="^\&amp;\=" />
-    <token name="RightAngled" pattern="^\&gt;" />
-    <token name="RightCurly"  pattern="^\}" />
-    <token name="RightParen"  pattern="^\)" />
-    <token name="RightSquare" pattern="^\]" />
-    <token name="Semicolon"   pattern="^\;" />
-    <token name="SingleQuote" pattern="^\'" />
-    <token name="Tilde"       pattern="^\~" />
-    <!-- Other -->
-    <token name="Character"   pattern="^\$lt;(\s*\d+\s*,\s*)*\s*\d+\s*\@gt;" />
-    <token name="Comment"     pattern="^\!.*" trivia="true" />
-    <token name="Identifier"  pattern="^([A-Z]|_)\w*" />
-    <token name="Number"      pattern="^(\+|\-)?\d+(\.\d+)?" />
-    <token name="Picture"     pattern="^\@([^\s|\~|\(|\)]+|\~.*\~|\(.*\))+" />
-    <token name="String"      pattern="^\'([^\']|\'\')*\'" />
-    <token name="Whitespace"  pattern="^\s+" trivia="true" />
-  </tokens>
+<lexical insensitive="true">
+  <reserved>ACCEPT</reserved>
+  <reserved>AND</reserved>
+  <reserved>BEGIN</reserved>
+  <reserved>BREAK</reserved>
+  <reserved>BY</reserved>
+  <reserved>CASE</reserved>
+  <reserved>CHOOSE</reserved>
+  <reserved>COMPILE</reserved>
+  <reserved>CYCLE</reserved>
+  <reserved>DO</reserved>
+  <reserved>ELSE</reserved>
+  <reserved>ELSIF</reserved>
+  <reserved>END</reserved>
+  <reserved>EXECUTE</reserved>
+  <reserved>EXIT</reserved>
+  <reserved>FUNCTION</reserved>
+  <reserved>GOTO</reserved>
+  <reserved>IF</reserved>
+  <reserved>INCLUDE</reserved>
+  <reserved>LOOP</reserved>
+  <reserved>MEMBER</reserved>
+  <reserved>NEW</reserved>
+  <reserved>NOT</reserved>
+  <reserved>NULL</reserved>
+  <reserved>OF</reserved>
+  <reserved>OMIT</reserved>
+  <reserved>OR</reserved>
+  <reserved>OROF</reserved>
+  <reserved>PARENT</reserved>
+  <reserved>PROCEDURE</reserved>
+  <reserved>PROGRAM</reserved>
+  <reserved>RETURN</reserved>
+  <reserved>ROUTINE</reserved>
+  <reserved>SECTION</reserved>
+  <reserved>SELF</reserved>
+  <reserved>THEN</reserved>
+  <reserved>TIMES</reserved>
+  <reserved>TO</reserved>
+  <reserved>UNTIL</reserved>
+  <reserved>WHILE</reserved>
+  <reserved>XOR</reserved>
+  <keyword>APPLICATION</keyword>
+  <keyword>CLASS</keyword>
+  <keyword>CODE</keyword>
+  <keyword>DATA</keyword>
+  <keyword>DETAIL</keyword>
+  <keyword>FILE</keyword>
+  <keyword>FOOTER</keyword>
+  <keyword>FORM</keyword>
+  <keyword>GROUP</keyword>
+  <keyword>HEADER</keyword>
+  <keyword>ITEM</keyword>
+  <keyword>ITEMIZE</keyword>
+  <keyword>JOIN</keyword>
+  <keyword>MAP</keyword>
+  <keyword>MENU</keyword>
+  <keyword>MENUBAR</keyword>
+  <keyword>MODULE</keyword>
+  <keyword>OLECONTROL</keyword>
+  <keyword>OPTION</keyword>
+  <keyword>QUEUE</keyword>
+  <keyword>RECORD</keyword>
+  <keyword>REPORT</keyword>
+  <keyword>ROW</keyword>
+  <keyword>SHEET</keyword>
+  <keyword>TAB</keyword>
+  <keyword>TABLE</keyword>
+  <keyword>TOOLBAR</keyword>
+  <keyword>VIEW</keyword>
+  <keyword>WINDOW</keyword>
+  <symbol>&amp;</symbol>
+  <symbol>*</symbol>
+  <symbol>@</symbol>
+  <symbol>\</symbol>
+  <symbol>|</symbol>
+  <symbol>^</symbol>
+  <symbol>:</symbol>
+  <symbol>,</symbol>
+  <symbol>:=:</symbol>
+  <symbol>$</symbol>
+  <symbol>&quot;</symbol>
+  <symbol>=</symbol>
+  <symbol>/</symbol>
+  <symbol>&lt;</symbol>
+  <symbol>{</symbol>
+  <symbol>(</symbol>
+  <symbol>[</symbol>
+  <symbol>-</symbol>
+  <symbol>%</symbol>
+  <symbol>.</symbol>
+  <symbol>+</symbol>
+  <symbol>#</symbol>
+  <symbol>?</symbol>
+  <symbol>&amp;=</symbol>
+  <symbol>&gt;</symbol>
+  <symbol>}</symbol>
+  <symbol>)</symbol>
+  <symbol>]</symbol>
+  <symbol>;</symbol>
+  <symbol>'</symbol>
+  <symbol>~</symbol>
+  <literal pattern="$lt;(\s*\d+\s*,\s*)*\s*\d+\s*\@gt;">character</literal>
+  <literal pattern="^(\+|\-)?\d+(\.\d+)?">number</literal>
+  <literal pattern="^\@([^\s|\~|\(|\)]+|\~.*\~|\(.*\))+">picture</literal>
+  <literal pattern="^\'([^\']|\'\')*\'">string</literal>
+  <identifier pattern="^([a-zA-Z]|_)(\w|:)*">id</identifier>
+  <trivia pattern="^\!.*">comment</trivia>
+  <trivia pattern="^\s+">whitespace</trivia>
 </lexical>

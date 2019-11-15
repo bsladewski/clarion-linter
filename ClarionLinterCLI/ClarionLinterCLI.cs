@@ -30,10 +30,11 @@ class ClarionLinterCLI
         StreamReader input = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(inputText)));
         ClarionLexer lexer = new ClarionLexer(input);
         // Tokenize Clarion source and print results
+        Console.WriteLine("\nTokenized Input:");
         while (lexer.HasNext())
         {
             Lexeme lexeme = lexer.Read();
-            if (lexeme.Token.Trivia)
+            if (lexeme.Token is Trivia)
                 continue;
             Console.Write(lexeme);
             if (lexeme.Token.Equals(Token.EOL))

@@ -14,6 +14,11 @@
         public readonly Token Token;
 
         /// <summary>
+        /// The current text representation of this Lexeme.
+        /// </summary>
+        public string Contents;
+
+        /// <summary>
         /// The line number where this Lexeme originally occurred.
         /// </summary>
         public readonly int Line;
@@ -22,12 +27,7 @@
         /// The column number where this Lexeme originally occurred.
         /// </summary>
         public readonly int Column;
-
-        /// <summary>
-        /// The current text representation of this Lexeme.
-        /// </summary>
-        public string Contents;
-
+        
         /// <summary>
         /// Constructs a Lexeme.
         /// </summary>

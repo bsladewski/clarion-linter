@@ -61,10 +61,14 @@ namespace Language
             Lexeme next = null;
             foreach (Token token in spec.Tokens)
             {
-                if (token.Pattern == null)
-                    // If the token pattern is null, this token is not matched by pattern
-                    continue;
-                Match match = Regex.Match(lineContents, token.Pattern, RegexOptions.IgnoreCase);
+                // Prepare regular expression and matching options.
+                string pattern = token.Pattern;
+                if (string.IsNullOrEmpty(pattern))
+                    pattern = string.Format("^{0}", Regex.Escape(token.Name));
+                RegexOptions options = RegexOptions.None;
+                if (token.Insensitive == true || (spec.Insensitive && token.Insensitive != false))
+                    options = RegexOptions.IgnoreCase;
+                Match match = Regex.Match(lineContents, pattern, options);
                 if (match.Equals(Match.Empty))
                     // If no match is found we can continue onto the next token type
                     continue;
@@ -75,7 +79,7 @@ namespace Language
                 else if (match.Length < next.Contents.Length)
                     // If a longer match has already been found there is nothing to do
                     continue;
-                else if (token.Keyword)
+                else if (token is Keyword || token is ReservedWord)
                     // Identifier tokens will typically match keywords
                     // We always want to assume we're looking a keyword
                     next = new Lexeme(token, line, column, match.Value);
