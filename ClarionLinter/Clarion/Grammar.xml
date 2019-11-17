@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<grammar>
+  <!-- Statements, a sequence of statements -->
+  <termDef root="true" name="statements">
+    <sequence>
+      <term name="statement"/>
+      <term name="input-end"/>
+    </sequence>
+    <sequence>
+      <term name="statements"/>
+      <term name="statements"/>
+    </sequence>
+  </termDef>
+  <!-- Statement, any single line or block of code -->
+  <termDef name="statement">
+    <term name="if"/>
+    <term name="loop"/>
+    <term name="assignment"/>
+  </termDef>
+  <!-- If, conditionally executes a series of statements -->
+  <termDef name="if">
+    <sequence>
+      <token name="IF"/>
+      <term name="expression"/>
+      <term name="input-end"/>
+      <term name="statements"/>
+      <term name="end"/>
+    </sequence>
+    <sequence>
+      <token name="IF"/>
+      <term name="expression"/>
+      <token name="THEN"/>
+      <term name="statement"/>
+      <term name="end"/>
+    </sequence>
+  </termDef>
+  <!-- Loop, executes a series of statements multiple times -->
+  <termDef name="loop">
+    <sequence>
+      <token name="LOOP"/>
+      <term name="assignment"/>
+      <token name="TO"/>
+      <term name="expression"/>
+      <term name="input-end"/>
+      <term name="statements"/>
+      <term name="end"/>
+    </sequence>
+    <sequence>
+      <token name="LOOP"/>
+      <token name="UNTIL"/>
+      <term name="expression"/>
+      <term name="input-end"/>
+      <term name="statements"/>
+      <term name="end"/>
+    </sequence>
+  </termDef>
+  <!-- Assignment, assigns the result of an expression to an identifier -->
+  <termDef name="assignment">
+    <sequence>
+      <token type="identifier"/>
+      <term name="assignment-op"/>
+      <term name="expression"/>
+    </sequence>
+  </termDef>
+  <!-- Expression, complex combinations of values that evaluate to a single value -->
+  <termDef name="expression">
+    <term name="value"/>
+    <sequence>
+      <token name="("/>
+      <term name="expression"/>
+      <token name=")"/>
+    </sequence>
+    <sequence>
+      <term name="expression"/>
+      <term name="conjunction"/>
+      <term name="expression"/>
+    </sequence>
+  </termDef>
+  <!-- Assignment Op, any operator that assigns a value to a label -->
+  <termDef name="assignment-op">
+    <token name="="/>
+    <token name=":=:"/>
+    <token name="&amp;="/>
+  </termDef>
+  <!-- Conjunction, any operator that combines two values -->
+  <termDef name="conjunction">
+    <token name="*"/>
+    <token name="^"/>
+    <token name="/"/>
+    <token name="-"/>
+    <token name="+"/>
+    <token name="%"/>
+    <token name="AND"/>
+    <token name="OR"/>
+    <token name="XOR"/>
+    <token name="="/>
+    <token name="&lt;&gt;"/>
+  </termDef>
+  <!-- Value, express a single value -->
+  <termDef name="value">
+    <token name="NULL"/>
+    <token type="identifier"/>
+    <token type="literal"/>
+    <sequence>
+      <term name="operation"/>
+      <term name="value"/>
+    </sequence>
+  </termDef>
+  <!-- Operation, any unary operation -->
+  <termDef name="operation">
+    <token name="NOT"/>
+    <token name="~"/>
+  </termDef>
+  <!-- End, the end of a code block -->
+  <termDef name="end">
+    <token name="END"/>
+    <token name="."/>
+  </termDef>
+  <!-- Input End, indicates the end of a line or input -->
+  <termDef name="input-end">
+    <token name="EOL"/>
+    <token name="EOF"/>
+  </termDef>
+</grammar>
