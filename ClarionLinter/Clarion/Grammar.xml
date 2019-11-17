@@ -16,6 +16,11 @@
     <term name="if"/>
     <term name="loop"/>
     <term name="assignment"/>
+    <term name="procedure-call"/>
+    <sequence>
+      <token name="DO"/>
+      <token type="identifier"/>
+    </sequence>
   </termDef>
   <!-- If, conditionally executes a series of statements -->
   <termDef name="if">
@@ -62,9 +67,33 @@
       <term name="expression"/>
     </sequence>
   </termDef>
+  <!-- Procedure call, calling a procedure by its identifier with parameters -->
+  <termDef name="procedure-call">
+    <sequence>
+      <token type="identifier"/>
+      <token name="("/>
+      <token name=")"/>
+    </sequence>
+    <sequence>
+      <token type="identifier"/>
+      <token name="("/>
+      <term name="parameter-list"/>
+      <token name=")"/>
+    </sequence>
+  </termDef>
+  <!-- Parameter list, comma separated parameters passed to a procedure -->
+  <termDef name="parameter-list">
+    <term name="expression"/>
+    <sequence>
+      <term name="parameter-list"/>
+      <token name=","/>
+      <term name="parameter-list"/>
+    </sequence>
+  </termDef>
   <!-- Expression, complex combinations of values that evaluate to a single value -->
   <termDef name="expression">
     <term name="value"/>
+    <term name="procedure-call"/>
     <sequence>
       <token name="("/>
       <term name="expression"/>
