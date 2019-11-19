@@ -1,74 +1,74 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <grammar>
   <!-- Statements, a sequence of statements -->
-  <termDef name="statements">
+  <ruleDefinition name="statements">
     <sequence>
-      <term name="statement"/>
-      <term name="input-end"/>
+      <rule name="statement"/>
+      <rule name="input-end"/>
     </sequence>
     <sequence>
-      <term name="statements"/>
-      <term name="statements"/>
+      <rule name="statements"/>
+      <rule name="statements"/>
     </sequence>
-  </termDef>
+  </ruleDefinition>
   <!-- Statement, any single line or block of code -->
-  <termDef name="statement">
-    <term name="if"/>
-    <term name="loop"/>
-    <term name="assignment"/>
-    <term name="procedure-call"/>
+  <ruleDefinition name="statement">
+    <rule name="if"/>
+    <rule name="loop"/>
+    <rule name="assignment"/>
+    <rule name="procedure-call"/>
     <sequence>
       <terminal name="DO"/>
       <terminal type="identifier"/>
     </sequence>
-  </termDef>
+  </ruleDefinition>
   <!-- If, conditionally executes a series of statements -->
-  <termDef name="if">
+  <ruleDefinition name="if">
     <sequence>
       <terminal name="IF"/>
-      <term name="expression"/>
-      <term name="input-end"/>
-      <term name="statements"/>
-      <term name="end"/>
+      <rule name="expression"/>
+      <rule name="input-end"/>
+      <rule name="statements"/>
+      <rule name="end"/>
     </sequence>
     <sequence>
       <terminal name="IF"/>
-      <term name="expression"/>
+      <rule name="expression"/>
       <terminal name="THEN"/>
-      <term name="statement"/>
-      <term name="end"/>
+      <rule name="statement"/>
+      <rule name="end"/>
     </sequence>
-  </termDef>
+  </ruleDefinition>
   <!-- Loop, executes a series of statements multiple times -->
-  <termDef name="loop">
+  <ruleDefinition name="loop">
     <sequence>
       <terminal name="LOOP"/>
-      <term name="assignment"/>
+      <rule name="assignment"/>
       <terminal name="TO"/>
-      <term name="expression"/>
-      <term name="input-end"/>
-      <term name="statements"/>
-      <term name="end"/>
+      <rule name="expression"/>
+      <rule name="input-end"/>
+      <rule name="statements"/>
+      <rule name="end"/>
     </sequence>
     <sequence>
       <terminal name="LOOP"/>
       <terminal name="UNTIL"/>
-      <term name="expression"/>
-      <term name="input-end"/>
-      <term name="statements"/>
-      <term name="end"/>
+      <rule name="expression"/>
+      <rule name="input-end"/>
+      <rule name="statements"/>
+      <rule name="end"/>
     </sequence>
-  </termDef>
+  </ruleDefinition>
   <!-- Assignment, assigns the result of an expression to an identifier -->
-  <termDef name="assignment">
+  <ruleDefinition name="assignment">
     <sequence>
       <terminal type="identifier"/>
-      <term name="assignment-op"/>
-      <term name="expression"/>
+      <rule name="assignment-op"/>
+      <rule name="expression"/>
     </sequence>
-  </termDef>
+  </ruleDefinition>
   <!-- Procedure call, calling a procedure by its identifier with parameters -->
-  <termDef name="procedure-call">
+  <ruleDefinition name="procedure-call">
     <sequence>
       <terminal type="identifier"/>
       <terminal name="("/>
@@ -77,42 +77,42 @@
     <sequence>
       <terminal type="identifier"/>
       <terminal name="("/>
-      <term name="parameter-list"/>
+      <rule name="parameter-list"/>
       <terminal name=")"/>
     </sequence>
-  </termDef>
+  </ruleDefinition>
   <!-- Parameter list, comma separated parameters passed to a procedure -->
-  <termDef name="parameter-list">
-    <term name="expression"/>
+  <ruleDefinition name="parameter-list">
+    <rule name="expression"/>
     <sequence>
-      <term name="parameter-list"/>
+      <rule name="parameter-list"/>
       <terminal name=","/>
-      <term name="parameter-list"/>
+      <rule name="parameter-list"/>
     </sequence>
-  </termDef>
+  </ruleDefinition>
   <!-- Expression, complex combinations of values that evaluate to a single value -->
-  <termDef name="expression">
-    <term name="value"/>
-    <term name="procedure-call"/>
+  <ruleDefinition name="expression">
+    <rule name="value"/>
+    <rule name="procedure-call"/>
     <sequence>
       <terminal name="("/>
-      <term name="expression"/>
+      <rule name="expression"/>
       <terminal name=")"/>
     </sequence>
     <sequence>
-      <term name="expression"/>
-      <term name="conjunction"/>
-      <term name="expression"/>
+      <rule name="expression"/>
+      <rule name="conjunction"/>
+      <rule name="expression"/>
     </sequence>
-  </termDef>
+  </ruleDefinition>
   <!-- Assignment Op, any operator that assigns a value to a label -->
-  <termDef name="assignment-op">
+  <ruleDefinition name="assignment-op">
     <terminal name="="/>
     <terminal name=":=:"/>
     <terminal name="&amp;="/>
-  </termDef>
+  </ruleDefinition>
   <!-- Conjunction, any operator that combines two values -->
-  <termDef name="conjunction">
+  <ruleDefinition name="conjunction">
     <terminal name="*"/>
     <terminal name="^"/>
     <terminal name="/"/>
@@ -124,30 +124,30 @@
     <terminal name="XOR"/>
     <terminal name="="/>
     <terminal name="&lt;&gt;"/>
-  </termDef>
+  </ruleDefinition>
   <!-- Value, express a single value -->
-  <termDef name="value">
+  <ruleDefinition name="value">
     <terminal name="NULL"/>
     <terminal type="identifier"/>
     <terminal type="literal"/>
     <sequence>
-      <term name="operation"/>
-      <term name="value"/>
+      <rule name="operation"/>
+      <rule name="value"/>
     </sequence>
-  </termDef>
+  </ruleDefinition>
   <!-- Operation, any unary operation -->
-  <termDef name="operation">
+  <ruleDefinition name="operation">
     <terminal name="NOT"/>
     <terminal name="~"/>
-  </termDef>
+  </ruleDefinition>
   <!-- End, the end of a code block -->
-  <termDef name="end">
+  <ruleDefinition name="end">
     <terminal name="END"/>
     <terminal name="."/>
-  </termDef>
+  </ruleDefinition>
   <!-- Input End, indicates the end of a line or input -->
-  <termDef name="input-end">
+  <ruleDefinition name="input-end">
     <terminal name="EOL"/>
     <terminal name="EOF"/>
-  </termDef>
+  </ruleDefinition>
 </grammar>
