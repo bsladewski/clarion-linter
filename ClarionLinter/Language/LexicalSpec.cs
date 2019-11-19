@@ -4,8 +4,8 @@ namespace Language
 {
 
     /// <summary>
-    /// The LexicalSpec is used to deserialize information needed at runtime to tokenize
-    /// a programming language.
+    /// The LexicalSpec is used to deserialize information needed at runtime to tokenize a
+    /// programming language.
     /// </summary>
     [XmlRoot("lexical")]
     public class LexicalSpec

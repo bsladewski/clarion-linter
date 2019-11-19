@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <grammar>
   <!-- Statements, a sequence of statements -->
-  <termDef root="true" name="statements">
+  <termDef name="statements">
     <sequence>
       <term name="statement"/>
       <term name="input-end"/>
@@ -18,23 +18,23 @@
     <term name="assignment"/>
     <term name="procedure-call"/>
     <sequence>
-      <token name="DO"/>
-      <token type="identifier"/>
+      <terminal name="DO"/>
+      <terminal type="identifier"/>
     </sequence>
   </termDef>
   <!-- If, conditionally executes a series of statements -->
   <termDef name="if">
     <sequence>
-      <token name="IF"/>
+      <terminal name="IF"/>
       <term name="expression"/>
       <term name="input-end"/>
       <term name="statements"/>
       <term name="end"/>
     </sequence>
     <sequence>
-      <token name="IF"/>
+      <terminal name="IF"/>
       <term name="expression"/>
-      <token name="THEN"/>
+      <terminal name="THEN"/>
       <term name="statement"/>
       <term name="end"/>
     </sequence>
@@ -42,17 +42,17 @@
   <!-- Loop, executes a series of statements multiple times -->
   <termDef name="loop">
     <sequence>
-      <token name="LOOP"/>
+      <terminal name="LOOP"/>
       <term name="assignment"/>
-      <token name="TO"/>
+      <terminal name="TO"/>
       <term name="expression"/>
       <term name="input-end"/>
       <term name="statements"/>
       <term name="end"/>
     </sequence>
     <sequence>
-      <token name="LOOP"/>
-      <token name="UNTIL"/>
+      <terminal name="LOOP"/>
+      <terminal name="UNTIL"/>
       <term name="expression"/>
       <term name="input-end"/>
       <term name="statements"/>
@@ -62,7 +62,7 @@
   <!-- Assignment, assigns the result of an expression to an identifier -->
   <termDef name="assignment">
     <sequence>
-      <token type="identifier"/>
+      <terminal type="identifier"/>
       <term name="assignment-op"/>
       <term name="expression"/>
     </sequence>
@@ -70,15 +70,15 @@
   <!-- Procedure call, calling a procedure by its identifier with parameters -->
   <termDef name="procedure-call">
     <sequence>
-      <token type="identifier"/>
-      <token name="("/>
-      <token name=")"/>
+      <terminal type="identifier"/>
+      <terminal name="("/>
+      <terminal name=")"/>
     </sequence>
     <sequence>
-      <token type="identifier"/>
-      <token name="("/>
+      <terminal type="identifier"/>
+      <terminal name="("/>
       <term name="parameter-list"/>
-      <token name=")"/>
+      <terminal name=")"/>
     </sequence>
   </termDef>
   <!-- Parameter list, comma separated parameters passed to a procedure -->
@@ -86,7 +86,7 @@
     <term name="expression"/>
     <sequence>
       <term name="parameter-list"/>
-      <token name=","/>
+      <terminal name=","/>
       <term name="parameter-list"/>
     </sequence>
   </termDef>
@@ -95,9 +95,9 @@
     <term name="value"/>
     <term name="procedure-call"/>
     <sequence>
-      <token name="("/>
+      <terminal name="("/>
       <term name="expression"/>
-      <token name=")"/>
+      <terminal name=")"/>
     </sequence>
     <sequence>
       <term name="expression"/>
@@ -107,29 +107,29 @@
   </termDef>
   <!-- Assignment Op, any operator that assigns a value to a label -->
   <termDef name="assignment-op">
-    <token name="="/>
-    <token name=":=:"/>
-    <token name="&amp;="/>
+    <terminal name="="/>
+    <terminal name=":=:"/>
+    <terminal name="&amp;="/>
   </termDef>
   <!-- Conjunction, any operator that combines two values -->
   <termDef name="conjunction">
-    <token name="*"/>
-    <token name="^"/>
-    <token name="/"/>
-    <token name="-"/>
-    <token name="+"/>
-    <token name="%"/>
-    <token name="AND"/>
-    <token name="OR"/>
-    <token name="XOR"/>
-    <token name="="/>
-    <token name="&lt;&gt;"/>
+    <terminal name="*"/>
+    <terminal name="^"/>
+    <terminal name="/"/>
+    <terminal name="-"/>
+    <terminal name="+"/>
+    <terminal name="%"/>
+    <terminal name="AND"/>
+    <terminal name="OR"/>
+    <terminal name="XOR"/>
+    <terminal name="="/>
+    <terminal name="&lt;&gt;"/>
   </termDef>
   <!-- Value, express a single value -->
   <termDef name="value">
-    <token name="NULL"/>
-    <token type="identifier"/>
-    <token type="literal"/>
+    <terminal name="NULL"/>
+    <terminal type="identifier"/>
+    <terminal type="literal"/>
     <sequence>
       <term name="operation"/>
       <term name="value"/>
@@ -137,17 +137,17 @@
   </termDef>
   <!-- Operation, any unary operation -->
   <termDef name="operation">
-    <token name="NOT"/>
-    <token name="~"/>
+    <terminal name="NOT"/>
+    <terminal name="~"/>
   </termDef>
   <!-- End, the end of a code block -->
   <termDef name="end">
-    <token name="END"/>
-    <token name="."/>
+    <terminal name="END"/>
+    <terminal name="."/>
   </termDef>
   <!-- Input End, indicates the end of a line or input -->
   <termDef name="input-end">
-    <token name="EOL"/>
-    <token name="EOF"/>
+    <terminal name="EOL"/>
+    <terminal name="EOF"/>
   </termDef>
 </grammar>
