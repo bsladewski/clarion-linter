@@ -5,6 +5,32 @@ namespace Language
 {
 
     /// <summary>
+    /// ILexer represents a stream of Lexemes.
+    /// </summary>
+    public interface ILexer
+    {
+
+        /// <summary>
+        /// Checks whether another Lexeme exists in the stream.
+        /// </summary>
+        /// <returns>Whether another Lexeme exists.</returns>
+        bool HasNext();
+
+        /// <summary>
+        /// Retrieves the next Lexeme without removing it from the stream.
+        /// </summary>
+        /// <returns>The next Lexeme in the stream.</returns>
+        Lexeme Peek();
+
+        /// <summary>
+        /// Retrieves and removes the next Lexeme in the stream.
+        /// </summary>
+        /// <returns>The next Lexeme in the stream.</returns>
+        Lexeme Read();
+
+    }
+
+    /// <summary>
     /// A DefaultLexer tokenizes a programming language line-by-line.
     /// </summary>
     public class DefaultLexer : ILexer
@@ -86,7 +112,7 @@ namespace Language
             }
             // Parse error if no maching Lexeme could be found
             if (next == null)
-                return new Lexeme(Token.ParseError, line, column, lineContents);
+                return new Lexeme(Token.LexError, line, column, lineContents);
             return next;
         }
 
@@ -96,14 +122,14 @@ namespace Language
         public Lexeme Read()
         {
             Lexeme next = Peek();
-            if (next.Token.Equals(Token.ParseError)) 
+            if (next.Token.Equals(Token.LexError))
             {
                 // Flush the contents of the stream so no further tokens are read
                 // There is no guarantee matching after this point will be accurate
                 lineContents = null;
                 input.ReadToEnd();
             }
-            else if (next.Token.Equals(Token.EOL)) 
+            else if (next.Token.Equals(Token.EOL))
             {
                 // Read the next line of input
                 lineContents = input.ReadLine();

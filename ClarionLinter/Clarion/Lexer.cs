@@ -16,6 +16,7 @@ namespace Clarion
         /// <summary>
         /// Gets the Clarion lexical specification.
         /// </summary>
+        /// <returns>The Clarion lexical specification.</returns>
         public static LexicalSpec ClarionLexicalSpec()
         {
             string spec = Resource.GetEmbeddedResource("Clarion/LexicalSpec.xml");
@@ -29,7 +30,7 @@ namespace Clarion
         /// <summary>
         /// Constructs a new Lexer using the Clarion lexical specification.
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="input">The input stream of Clarion source code.</param>
         public ClarionLexer(StreamReader input) : base(ClarionLexicalSpec(), input) { }
 
     }
