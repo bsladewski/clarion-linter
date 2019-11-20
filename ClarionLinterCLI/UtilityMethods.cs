@@ -13,7 +13,7 @@ partial class ClarionLinterCLI
         // Place a newline and indentation before any non-terminal nodes
         Console.WriteLine();
         for (int i = 0; i < ParseTree.Depth(node); i++)
-            Console.Write("  ");
+            Console.Write("|");
         Console.Write(node);
     }
 
