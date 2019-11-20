@@ -14,7 +14,7 @@ namespace Language
         /// <summary>
         /// A list of RuleDefinitions specified by the grammar.
         /// </summary>
-        [XmlElement("ruleDefinition")]
+        [XmlElement("ruleDefinition", Type = typeof(RuleDefinition))]
         public RuleDefinition[] RuleDefinitions;
 
     }
@@ -39,7 +39,7 @@ namespace Language
         /// foo, bar, or baz.
         /// </summary>
         [XmlElement("rule", typeof(Rule))]
-        [XmlElement("terminal", typeof(Token))]
+        [XmlElement("terminal", typeof(Terminal))]
         public Rule[] Rules;
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Language
         /// sequence defined by [foo, bar, baz] will match an occurance of foo followed by an
         /// occurance of bar followed by an occurance of baz.
         /// </summary>
-        [XmlElement("sequence")]
+        [XmlElement("sequence", typeof(Sequence))]
         public Sequence[] Sequences;
 
     }
@@ -64,6 +64,7 @@ namespace Language
     /// <summary>
     /// Rules are matched during parsing to define abstract syntax.
     /// </summary>
+    [XmlType("rule")]
     public class Rule
     {
 
@@ -101,6 +102,7 @@ namespace Language
     /// A Terminal Rule matches a Token. Terminal Rules cannot be expanded further and thus
     /// represent a leaf node in the abstract syntax tree.
     /// </summary>
+    [XmlType("terminal")]
     public class Terminal : Rule
     {
 

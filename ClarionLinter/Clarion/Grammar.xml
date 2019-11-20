@@ -77,17 +77,27 @@
     <sequence>
       <terminal type="identifier"/>
       <terminal name="("/>
+      <rule name="expression"/>
+      <terminal name=")"/>
+    </sequence>
+    <sequence>
+      <terminal type="identifier"/>
+      <terminal name="("/>
       <rule name="parameter-list"/>
       <terminal name=")"/>
     </sequence>
   </ruleDefinition>
   <!-- Parameter list, comma separated parameters passed to a procedure -->
   <ruleDefinition name="parameter-list">
-    <rule name="expression"/>
+    <sequence>
+      <rule name="expression"/>
+      <terminal name=","/>
+      <rule name="expression"/>
+    </sequence>
     <sequence>
       <rule name="parameter-list"/>
       <terminal name=","/>
-      <rule name="parameter-list"/>
+      <rule name="expression"/>
     </sequence>
   </ruleDefinition>
   <!-- Expression, complex combinations of values that evaluate to a single value -->
@@ -122,6 +132,8 @@
     <terminal name="AND"/>
     <terminal name="OR"/>
     <terminal name="XOR"/>
+    <terminal name="&lt;"/>
+    <terminal name="&gt;"/>
     <terminal name="="/>
     <terminal name="&lt;&gt;"/>
   </ruleDefinition>

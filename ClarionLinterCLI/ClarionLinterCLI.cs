@@ -7,7 +7,7 @@ using System.Text;
 /// <summary>
 /// ClarionLinterCLI provides a command-line interface for the Clarion Linter.
 /// </summary>
-class ClarionLinterCLI
+partial class ClarionLinterCLI
 {
 
     /// <summary>
@@ -29,17 +29,9 @@ class ClarionLinterCLI
         // Create a Clarion lexer from the input text
         StreamReader input = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(inputText)));
         ClarionLexer lexer = new ClarionLexer(input);
-        // Tokenize Clarion source and print results
-        Console.WriteLine("\nTokenized Input:");
-        while (lexer.HasNext())
-        {
-            Lexeme lexeme = lexer.Read();
-            if (lexeme.Token is Trivia)
-                continue;
-            Console.Write(lexeme);
-            if (lexeme.Token.Equals(Token.EOL))
-                Console.WriteLine();
-        }
+        ClarionParser parser = new ClarionParser();
+        ParseTree parseTree = parser.Parse(lexer);
+        PrintParseTree(parseTree);
         input.Close();
         // Wait for user input before closing
         if (!Console.IsInputRedirected)

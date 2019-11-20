@@ -19,7 +19,7 @@ namespace Clarion
         /// <returns>The Clarion grammar.</returns>
         public static Grammar ClarionGrammar()
         {
-            string grammar = Resource.GetEmbeddedResource("Clarion/LexicalSpec.xml");
+            string grammar = Resource.GetEmbeddedResource("Clarion/Grammar.xml");
             using (MemoryStream grammarStream = new MemoryStream(Encoding.UTF8.GetBytes(grammar)))
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(Grammar));

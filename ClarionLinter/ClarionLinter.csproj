@@ -5,10 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Clarion\Grammar.xml" />
     <None Remove="Clarion\LexicalSpec.xml" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Clarion\Grammar.xml" />
     <EmbeddedResource Include="Clarion\LexicalSpec.xml" />
   </ItemGroup>
 

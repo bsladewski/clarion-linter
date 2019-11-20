@@ -16,12 +16,40 @@ namespace Language
         public ParseNode Root;
 
         /// <summary>
-        /// 
+        /// Constructs a new ParseTree.
         /// </summary>
         /// <param name="root">The root node of this ParseTree.</param>
         public ParseTree(ParseNode root)
         {
             Root = root;
+        }
+
+        /// <summary>
+        /// A Callback may be used to perform some operation on a ParseNode during tree traversal.
+        /// </summary>
+        /// <param name="node">A node that the callback will operate on.</param>
+        public delegate void Callback(ParseNode node);
+
+        /// <summary>
+        /// Performs an inorder traversal of the ParseTree applying the supplied callback function
+        /// to each node encountered.
+        /// </summary>
+        /// <param name="callback">A callback function to apply to ParseTree nodes.</param>
+        public void Inorder(Callback callback)
+        {
+            inorder(Root, callback);
+        }
+
+        /// <summary>
+        /// Recursively executes the inorder traversal.
+        /// </summary>
+        /// <param name="node">The node being traversed.</param>
+        /// <param name="callback">The callback function to apply to the node.</param>
+        private void inorder(ParseNode node, Callback callback)
+        {
+            foreach (ParseNode child in node.Children)
+                inorder(child, callback);
+            callback(node);
         }
 
     }
@@ -74,6 +102,16 @@ namespace Language
             Rule = rule;
             Lexeme = null;
             Children = children;
+        }
+
+        /// <summary>
+        /// See <see cref="object.ToString()"/>
+        /// </summary>
+        public override string ToString()
+        {
+            if (Rule is Terminal)
+                return Lexeme.ToString();
+            return string.Format("[{0}]", Rule.Name);
         }
 
     }
@@ -167,7 +205,7 @@ namespace Language
                             // matches
                             break;
                         // Try to match against Rules defined in the Grammar
-                        foreach (Rule rule in definition.Rules)
+                        foreach (Rule rule in definition.Rules ?? new Rule[0])
                         {
                             if (matching.Count != 1)
                                 // A Rule can only match one input element
@@ -178,6 +216,7 @@ namespace Language
                                 // If the node matches the Rule we have successfully parsed
                                 // the node
                                 found = true;
+                                parsed++;
                                 nextPass.Add(new ParseNode(new Rule(definition.Name), matching));
                                 break;
                             }
@@ -187,7 +226,7 @@ namespace Language
                             // whether any Sequences match
                             break;
                         // Try to match against Sequences defined in the Grammar
-                        foreach (Sequence sequence in definition.Sequences)
+                        foreach (Sequence sequence in definition.Sequences ?? new Sequence[0])
                         {
                             if (matching.Count > sequence.Rules.Length)
                                 // A Sequence must be greater than (partial match) or equal to
@@ -214,6 +253,7 @@ namespace Language
                                 // sequence are equal and all elements matched the corresponding
                                 // Rules we have successfully parsed the element(s)
                                 found = true;
+                                parsed++;
                                 i = j; // advance i to the end of this subset of input
                                 nextPass.Add(new ParseNode(new Rule(definition.Name), matching));
                                 break;
@@ -238,8 +278,13 @@ namespace Language
         public ParseTree Parse(ILexer input)
         {
             // Add all Lexemes from input as Terminal Rules to the next pass
-            while(input.HasNext())
-                nextPass.Add(new ParseNode(new Terminal(), input.Read()));
+            while (input.HasNext())
+            {
+                Lexeme next = input.Read();
+                if (next.Token is Trivia)
+                    continue;
+                nextPass.Add(new ParseNode(new Terminal(), next));
+            }
             // Perform passes until input has been parsed
             while (pass()) ;
             // At this point the parse tree exists as elements of nextPass
