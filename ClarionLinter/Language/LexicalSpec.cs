@@ -51,7 +51,7 @@ namespace Language
         /// <summary>
         /// A Token that indicates no other valid Token could be parsed from input.
         /// </summary>
-        public static readonly Token ParseError = new Token("Parse Error");
+        public static readonly Token LexError = new Token("Lex Error");
 
         /// <summary>
         /// A display name for this Token.

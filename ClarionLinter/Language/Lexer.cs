@@ -112,7 +112,7 @@ namespace Language
             }
             // Parse error if no maching Lexeme could be found
             if (next == null)
-                return new Lexeme(Token.ParseError, line, column, lineContents);
+                return new Lexeme(Token.LexError, line, column, lineContents);
             return next;
         }
 
@@ -122,7 +122,7 @@ namespace Language
         public Lexeme Read()
         {
             Lexeme next = Peek();
-            if (next.Token.Equals(Token.ParseError))
+            if (next.Token.Equals(Token.LexError))
             {
                 // Flush the contents of the stream so no further tokens are read
                 // There is no guarantee matching after this point will be accurate
