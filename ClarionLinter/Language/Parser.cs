@@ -37,15 +37,15 @@ namespace Language
         /// <param name="callback">A callback function to apply to ParseTree nodes.</param>
         public void Inorder(Callback callback)
         {
-            inorder(Root, callback);
+            Inorder(Root, callback);
         }
 
         /// <summary>
-        /// Recursively executes the inorder traversal.
+        /// Recursively executes an inorder traversal from the specified node.
         /// </summary>
         /// <param name="node">The node being traversed.</param>
         /// <param name="callback">The callback function to apply to the node.</param>
-        private void inorder(ParseNode node, Callback callback)
+        public void Inorder(ParseNode node, Callback callback)
         {
             if (node.Children.Count == 0)
                 callback(node);
@@ -53,8 +53,52 @@ namespace Language
             {
                 if (i == node.Children.Count / 2)
                     callback(node);
-                inorder(node.Children[i], callback);
+                Inorder(node.Children[i], callback);
             }
+        }
+
+        /// <summary>
+        /// Performs a preorder traversal of the ParseTree applying the supplied callback function
+        /// to each node encountered.
+        /// </summary>
+        /// <param name="callback">A callback function to apply to ParseTree nodes.</param>
+        public void Preorder(Callback callback)
+        {
+            Preorder(Root, callback);
+        }
+
+        /// <summary>
+        /// Recursively executes a preorder traversal from the specified node.
+        /// </summary>
+        /// <param name="node">The node being traversed.</param>
+        /// <param name="callback">The callback function to apply to the node.</param>
+        public void Preorder(ParseNode node, Callback callback)
+        {
+            callback(node);
+            foreach (ParseNode child in node.Children)
+                Preorder(child, callback);
+        }
+
+        /// <summary>
+        /// Performs a postorder traversal of the ParseTree applying the supplied callback function
+        /// to each node encountered.
+        /// </summary>
+        /// <param name="callback">A callback function to apply to ParseTree nodes.</param>
+        public void Postorder(Callback callback)
+        {
+            Postorder(Root, callback);
+        }
+
+        /// <summary>
+        /// Recursively executes a postorder traversal from the specified node.
+        /// </summary>
+        /// <param name="node">The node being traversed.</param>
+        /// <param name="callback">The callback function to apply to the node.</param>
+        public void Postorder(ParseNode node, Callback callback)
+        {
+            foreach (ParseNode child in node.Children)
+                Postorder(child, callback);
+            callback(node);
         }
 
     }

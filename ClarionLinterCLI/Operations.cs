@@ -10,6 +10,8 @@ partial class ClarionLinterCLI
     /// <param name="node">The ParseNode to print.</param>
     private static void printParseNode(ParseNode node)
     {
+        if (node.Children.Count > 0)
+            Console.WriteLine();
         Console.Write(node);
     }
 
@@ -19,7 +21,7 @@ partial class ClarionLinterCLI
     /// <param name="tree">The ParseTree to print.</param>
     public static void PrintParseTree(ParseTree tree)
     {
-        tree.Inorder(printParseNode);
+        tree.Preorder(printParseNode);
     }
 
 }
