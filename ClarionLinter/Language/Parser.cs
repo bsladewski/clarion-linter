@@ -4,7 +4,30 @@ namespace Language
 {
 
     /// <summary>
-    /// A ParseNode represents a Grammar Rule within an abstract syntax tree.
+    /// A ParseTree represents the resulting of parsing source code.
+    /// ParseTree provides useful methods for inspecting and manipulating the ParseTree.
+    /// </summary>
+    public class ParseTree
+    {
+
+        /// <summary>
+        /// The root node of this ParseTree.
+        /// </summary>
+        public ParseNode Root;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="root">The root node of this ParseTree.</param>
+        public ParseTree(ParseNode root)
+        {
+            Root = root;
+        }
+
+    }
+
+    /// <summary>
+    /// A ParseNode represents a Grammar Rule within a parse tree.
     /// ParseNodes are created when a RuleDefinition is successfully matched during parsing.
     /// When adding Tokens to input, they are wrapped in a Terminal ParseNode.
     /// </summary>
@@ -212,7 +235,7 @@ namespace Language
             return parsed > 0;
         }
 
-        public ParseNode Parse(ILexer input)
+        public ParseTree Parse(ILexer input)
         {
             // Add all Lexemes from input as Terminal Rules to the next pass
             while(input.HasNext())
@@ -223,11 +246,11 @@ namespace Language
             if (nextPass.Count == 1)
                 // If there is only one element in nextPass, the parse was successful and the
                 // element represents the root of the parse tree
-                return nextPass[0];
+                return new ParseTree(nextPass[0]);
             // If there was not one element, a parse error occurred
             // Add all elements of nextPass to a parse error node and return it as the root of
             // the parse tree
-            return new ParseNode(Rule.ParseError, nextPass);
+            return new ParseTree(new ParseNode(Rule.ParseError, nextPass));
         }
 
         /// <summary>
