@@ -68,6 +68,11 @@ namespace Language
     {
 
         /// <summary>
+        /// A Rule that indicates parsing resulted in multiple root results.
+        /// </summary>
+        public static readonly Rule ParseError = new Rule("Parse Error");
+
+        /// <summary>
         /// A display name for this Rule.
         /// This value is also used to relate the Rule to its definition by name. For example, a
         /// Rule will use the Name field to determine if this Rule matches a given RuleDefinition
@@ -75,6 +80,20 @@ namespace Language
         /// </summary>
         [XmlAttribute("name")]
         public string Name;
+
+        /// <summary>
+        /// A parameterless constructor that is used when constructing Rules through serialization.
+        /// </summary>
+        protected Rule() { }
+
+        /// <summary>
+        /// Constructs a new Rule.
+        /// </summary>
+        /// <param name="name">A name for this Rule.</param>
+        public Rule(string name)
+        {
+            Name = name;
+        }
 
     }
 

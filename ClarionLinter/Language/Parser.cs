@@ -4,20 +4,61 @@ namespace Language
 {
 
     /// <summary>
-    /// IParser represents an abstract syntax tree.
+    /// A ParseNode represents a Grammar Rule within an abstract syntax tree.
+    /// ParseNodes are created when a RuleDefinition is successfully matched during parsing.
+    /// When adding Tokens to input, they are wrapped in a Terminal ParseNode.
     /// </summary>
-    public interface IParser
+    public class ParseNode
     {
 
-        // TODO: I want to be able implement IParser to create decorators that will be used to
-        // apply linting rules to the abstract syntax tree.
+        /// <summary>
+        /// The Grammar Rule that this ParseNode represents.
+        /// This is the abstract representation of syntax.
+        /// </summary>
+        public Rule Rule;
+
+        /// <summary>
+        /// A Lexeme that this ParseNode encapsulates.
+        /// This will occur if the ParseNode represents a Terminal Rule.
+        /// This is the concrete representation of syntax.
+        /// </summary>
+        public Lexeme Lexeme;
+
+        /// <summary>
+        /// Any child nodes to this ParseNode.
+        /// </summary>
+        public List<ParseNode> Children;
+
+        /// <summary>
+        /// Constructs a new ParseNode.
+        /// </summary>
+        /// <param name="rule">The Rule that this ParseNode matched.</param>
+        /// <param name="lexeme">A Lexeme that this ParseNode encapsulates.</param>
+        public ParseNode(Terminal rule, Lexeme lexeme)
+        {
+            Rule = rule;
+            Lexeme = lexeme;
+            Children = new List<ParseNode>();
+        }
+
+        /// <summary>
+        /// Constructs a new ParseNode.
+        /// </summary>
+        /// <param name="rule">The Rule that this ParseNode matched.</param>
+        /// <param name="children">Any child nodes to this ParseNode.</param>
+        public ParseNode(Rule rule, List<ParseNode> children)
+        {
+            Rule = rule;
+            Lexeme = null;
+            Children = children;
+        }
 
     }
 
     /// <summary>
     /// A DefaultParser parses a programming language from a stream of Lexemes.
     /// </summary>
-    public class DefaultParser : IParser
+    public class DefaultParser
     {
 
         /// <summary>
@@ -26,50 +67,51 @@ namespace Language
         private Grammar grammar;
 
         /// <summary>
-        /// All Lexemes and Rules to be parsed on the next pass.
+        /// All nodes to be parsed on the next pass.
         /// </summary>
-        private List<object> nextPass = new List<object>();
+        private List<ParseNode> nextPass = new List<ParseNode>();
 
         /// <summary>
-        /// Checks whether an element of input matches a Grammar Rule.
+        /// Checks whether a ParseNode matches a Grammar Rule.
         /// </summary>
-        /// <param name="element">The element to match.</param>
+        /// <param name="node">The ParseNode to match.</param>
         /// <param name="rule">The Grammar Rule to match against.</param>
         /// <returns>Whether the element matches the Rule.</returns>
-        private bool matches(object element, Rule rule)
+        private bool matches(ParseNode node, Rule rule)
         {
-            if (element is Lexeme && rule is Terminal)
+            if (node.Rule is Terminal)
             {
-                Lexeme lexeme = element as Lexeme;
+                if (node.Lexeme == null || !(rule is Terminal))
+                    // A Terminal Rule should only be compared to another Terminal Rule
+                    // We also cannot match a null Lexeme to a Terminal Rule, if this occurs in
+                    // runtime the invalid ParseNode will remain in input and result in a parse error
+                    return false;
                 Terminal terminal = rule as Terminal;
-                // Try to match the Token by type
-                bool typeMatch = false;
+                // Terminal Rules will either match a Token by name or type
+                // If the type corresponds to one of the Token types defined by the LexicalSpec
+                // schema, the matching will occur on the type of the Token
                 switch (terminal.Type)
                 {
                     case "token":
-                        typeMatch = true;
-                        break;
+                        return true;
                     case "reserved":
-                        typeMatch = lexeme.Token is ReservedWord;
-                        break;
+                        return node.Lexeme.Token is ReservedWord;
                     case "symbol":
-                        typeMatch = lexeme.Token is Symbol;
-                        break;
+                        return node.Lexeme.Token is Symbol;
                     case "literal":
-                        typeMatch = lexeme.Token is Literal;
-                        break;
+                        return node.Lexeme.Token is Literal;
                     case "identifier":
-                        typeMatch = lexeme.Token is Identifier;
-                        break;
+                        return node.Lexeme.Token is Identifier;
                     case "keyword":
-                        typeMatch = lexeme.Token is Keyword;
-                        break;
+                        return node.Lexeme.Token is Keyword;
                 }
-                // Try to match the Token by name
-                if (typeMatch || lexeme.Token.Name == terminal.Name)
-                    return true;
+                // If the type is not set or is not part of the LexicalSpec schema, matching will
+                // occur on the Token name
+                return node.Lexeme.Token.Name == terminal.Name;
             }
-            return element is Rule && (element as Rule).Name == rule.Name;
+            // If neither the ParseNode and Rule are Terminal Rules, matching simply occurs on the
+            // Rule name.
+            return node.Rule.Name == rule.Name;
         }
 
         /// <summary>
@@ -78,17 +120,16 @@ namespace Language
         /// <returns>Whether or not there is still input to parse.</returns>
         private bool pass()
         {
-            // Create an array of input we will process on this pass, clear next pass
-            object[] currentPass = new object[nextPass.Count];
+            // Create an array of ParseNodes we will process during this pass, clear the next pass
+            ParseNode[] currentPass = new ParseNode[nextPass.Count];
             nextPass.CopyTo(currentPass);
             nextPass.Clear();
             // Track the number of input elements that were successfully parsed
             int parsed = 0;
-            // Begin iterating over the input
             for (int i = 0; i < currentPass.Length; i++)
             {
                 // Look for the shortest match starting with the ith element
-                List<object> matching = new List<object>();
+                List<ParseNode> matching = new List<ParseNode>();
                 bool found = false;
                 for (int j = i; j < currentPass.Length; j++)
                 {
@@ -98,32 +139,38 @@ namespace Language
                     int partialMatches = 0;
                     foreach (RuleDefinition definition in grammar.RuleDefinitions)
                     {
-                        // Try to match against rules
+                        if (found)
+                            // If we found an exact match we do not need to continue to look for
+                            // matches
+                            break;
+                        // Try to match against Rules defined in the Grammar
                         foreach (Rule rule in definition.Rules)
                         {
                             if (matching.Count != 1)
                                 // A Rule can only match one input element
                                 break;
-                            // Attempt to match the element against the rule
+                            // Attempt to match the node against the Rule
                             if (matches(matching[0], rule))
                             {
-                                // If the element matches the rule we have successfully parsed
-                                // the element
+                                // If the node matches the Rule we have successfully parsed
+                                // the node
                                 found = true;
+                                nextPass.Add(new ParseNode(new Rule(definition.Name), matching));
                                 break;
                             }
                         }
-                        // If we found an exact match we can just exit the loop
                         if (found)
+                            // If we found an exact match we can just exit the loop without checking
+                            // whether any Sequences match
                             break;
-                        // Try to match against sequences
+                        // Try to match against Sequences defined in the Grammar
                         foreach (Sequence sequence in definition.Sequences)
                         {
-                            // A Sequence must be greater than or equal to the number of elements
-                            // to match
                             if (matching.Count > sequence.Rules.Length)
+                                // A Sequence must be greater than (partial match) or equal to
+                                // (exact match) the number of nodes to match
                                 continue;
-                            // Attempt to match all elements so far against the Sequence Rules
+                            // Attempt to match all nodes so far against the Sequence Rules
                             // Having checked zero elements against zero rules, we initialize
                             // partial match to true and set it to false if a mismatch occurs
                             bool partialMatch = true;
@@ -135,8 +182,8 @@ namespace Language
                                 }
                             if (partialMatch)
                                 // If a partial match occurred we need to track it in case we
-                                // don't get a definitive match, this will tell us if we should
-                                // continue looking for matching sequences
+                                // don't get a definitive match, this will tell us whether we
+                                // should continue looking for matching sequences
                                 partialMatches++;
                             if (partialMatch && matching.Count == sequence.Rules.Length)
                             {
@@ -144,6 +191,8 @@ namespace Language
                                 // sequence are equal and all elements matched the corresponding
                                 // Rules we have successfully parsed the element(s)
                                 found = true;
+                                i = j; // advance i to the end of this subset of input
+                                nextPass.Add(new ParseNode(new Rule(definition.Name), matching));
                                 break;
                             }
                         }
@@ -154,13 +203,40 @@ namespace Language
                         break;
                 }
                 if (!found)
-                    // If we didn't find a match add the element to the next pass
+                    // If we didn't find a match add the ith node to the next pass
                     // We do this because we may be waiting on a more complex structure to be
                     // parsed before we're able to use this element in future parsing
                     nextPass.Add(currentPass[i]);
             }
-            // If any input was parsed we will need to make another pass
+            // If any input was successfully parsed we will need to make another pass
             return parsed > 0;
+        }
+
+        public ParseNode Parse(ILexer input)
+        {
+            // Add all Lexemes from input as Terminal Rules to the next pass
+            while(input.HasNext())
+                nextPass.Add(new ParseNode(new Terminal(), input.Read()));
+            // Perform passes until input has been parsed
+            while (pass()) ;
+            // At this point the parse tree exists as elements of nextPass
+            if (nextPass.Count == 1)
+                // If there is only one element in nextPass, the parse was successful and the
+                // element represents the root of the parse tree
+                return nextPass[0];
+            // If there was not one element, a parse error occurred
+            // Add all elements of nextPass to a parse error node and return it as the root of
+            // the parse tree
+            return new ParseNode(Rule.ParseError, nextPass);
+        }
+
+        /// <summary>
+        /// Constructs a new DefaultParser.
+        /// </summary>
+        /// <param name="grammar">The Grammar used to parse input.</param>
+        public DefaultParser(Grammar grammar)
+        {
+            this.grammar = grammar;
         }
 
     }
