@@ -47,9 +47,14 @@ namespace Language
         /// <param name="callback">The callback function to apply to the node.</param>
         private void inorder(ParseNode node, Callback callback)
         {
-            foreach (ParseNode child in node.Children)
-                inorder(child, callback);
-            callback(node);
+            if (node.Children.Count == 0)
+                callback(node);
+            for (int i = 0; i < node.Children.Count; i++)
+            {
+                if (i == node.Children.Count / 2)
+                    callback(node);
+                inorder(node.Children[i], callback);
+            }
         }
 
     }
