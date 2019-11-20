@@ -45,7 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClarionLinterCLI.cs" />
-    <Compile Include="Operations.cs" />
+    <Compile Include="UtilityLexers.cs" />
+    <Compile Include="UtilityMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

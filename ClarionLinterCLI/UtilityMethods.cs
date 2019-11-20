@@ -10,8 +10,10 @@ partial class ClarionLinterCLI
     /// <param name="node">The ParseNode to print.</param>
     private static void printParseNode(ParseNode node)
     {
-        if (node.Children.Count > 0)
-            Console.WriteLine();
+        // Place a newline and indentation before any non-terminal nodes
+        Console.WriteLine();
+        for (int i = 0; i < ParseTree.Depth(node); i++)
+            Console.Write("  ");
         Console.Write(node);
     }
 

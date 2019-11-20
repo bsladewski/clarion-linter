@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
-using Util;
+using Utility;
 
 namespace Clarion
 {

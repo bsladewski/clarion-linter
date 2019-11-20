@@ -45,7 +45,7 @@ namespace Language
         /// </summary>
         /// <param name="node">The node being traversed.</param>
         /// <param name="callback">The callback function to apply to the node.</param>
-        public void Inorder(ParseNode node, Callback callback)
+        public static void Inorder(ParseNode node, Callback callback)
         {
             if (node.Children.Count == 0)
                 callback(node);
@@ -72,7 +72,7 @@ namespace Language
         /// </summary>
         /// <param name="node">The node being traversed.</param>
         /// <param name="callback">The callback function to apply to the node.</param>
-        public void Preorder(ParseNode node, Callback callback)
+        public static void Preorder(ParseNode node, Callback callback)
         {
             callback(node);
             foreach (ParseNode child in node.Children)
@@ -94,11 +94,48 @@ namespace Language
         /// </summary>
         /// <param name="node">The node being traversed.</param>
         /// <param name="callback">The callback function to apply to the node.</param>
-        public void Postorder(ParseNode node, Callback callback)
+        public static void Postorder(ParseNode node, Callback callback)
         {
             foreach (ParseNode child in node.Children)
                 Postorder(child, callback);
             callback(node);
+        }
+
+        /// <summary>
+        /// Gets the depth of a ParseNode within a ParseTree.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public static int Depth(ParseNode node)
+        {
+            int count = 0;
+            ParseNode parent = node.Parent;
+            while (parent != null)
+            {
+                count++;
+                parent = parent.Parent;
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Counts the number of occurrances of the specific rule name in the supplied node's
+        /// ancestors.
+        /// </summary>
+        /// <param name="node">The node to begin the search.</param>
+        /// <param name="parentName">The name of the parent Rule to search for.</param>
+        /// <returns></returns>
+        public static int CountInParents(ParseNode node, string parentName)
+        {
+            int count = 0;
+            ParseNode parent = node.Parent;
+            while (parent != null)
+            {
+                if (parent.Rule.Name == parentName)
+                    count++;
+                parent = parent.Parent;
+            }
+            return count;
         }
 
     }
@@ -123,6 +160,11 @@ namespace Language
         /// This is the concrete representation of syntax.
         /// </summary>
         public Lexeme Lexeme;
+
+        /// <summary>
+        /// The parent node to this ParseNode.
+        /// </summary>
+        public ParseNode Parent;
 
         /// <summary>
         /// Any child nodes to this ParseNode.
@@ -151,6 +193,8 @@ namespace Language
             Rule = rule;
             Lexeme = null;
             Children = children;
+            foreach (ParseNode child in children)
+                child.Parent = this;
         }
 
         /// <summary>

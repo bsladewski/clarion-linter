@@ -38,12 +38,21 @@
       <rule name="statement"/>
       <rule name="end"/>
     </sequence>
+    <sequence>
+      <terminal name="IF"/>
+      <rule name="expression"/>
+      <terminal name="THEN"/>
+      <rule name="statement"/>
+      <terminal name="ELSE"/>
+      <rule name="statement"/>
+      <rule name="end"/>
+    </sequence>
   </ruleDefinition>
   <!-- Loop, executes a series of statements multiple times -->
   <ruleDefinition name="loop">
     <sequence>
       <terminal name="LOOP"/>
-      <rule name="assignment"/>
+      <rule name="expression"/>
       <terminal name="TO"/>
       <rule name="expression"/>
       <rule name="input-end"/>
@@ -57,14 +66,6 @@
       <rule name="input-end"/>
       <rule name="statements"/>
       <rule name="end"/>
-    </sequence>
-  </ruleDefinition>
-  <!-- Assignment, assigns the result of an expression to an identifier -->
-  <ruleDefinition name="assignment">
-    <sequence>
-      <terminal type="identifier"/>
-      <rule name="assignment-op"/>
-      <rule name="expression"/>
     </sequence>
   </ruleDefinition>
   <!-- Procedure call, calling a procedure by its identifier with parameters -->
@@ -114,12 +115,6 @@
       <rule name="conjunction"/>
       <rule name="expression"/>
     </sequence>
-  </ruleDefinition>
-  <!-- Assignment Op, any operator that assigns a value to a label -->
-  <ruleDefinition name="assignment-op">
-    <terminal name="="/>
-    <terminal name=":=:"/>
-    <terminal name="&amp;="/>
   </ruleDefinition>
   <!-- Conjunction, any operator that combines two values -->
   <ruleDefinition name="conjunction">

@@ -28,9 +28,12 @@ partial class ClarionLinterCLI
             throw new ArgumentException("No input text supplied");
         // Create a Clarion lexer from the input text
         StreamReader input = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(inputText)));
-        ClarionLexer lexer = new ClarionLexer(input);
+        ILexer lexer = new ClarionLexer(input);
+        lexer = new PrintLexer(lexer);
         ClarionParser parser = new ClarionParser();
+        Console.Write("Token Stream:\n");
         ParseTree parseTree = parser.Parse(lexer);
+        Console.Write("\nParse Tree:");
         PrintParseTree(parseTree);
         input.Close();
         // Wait for user input before closing
