@@ -1,0 +1,5 @@
+# Clarion Linter
+This project provides tooling for building a lexer and parser for a programming language. This tooling is used to implement a lexer and parser for the Clarion programming language. The resulting lexemes and parse tree will be used to analyze Clarion source code to output syntax errors, suggest style improvements, or automate enforcement of style through linting rules. The goal of this project is to create tools that can be integrated with the Clarion IDE to improve some pain points in working with the IDE.
+
+# Current State
+The lexer and Clarion implementation of the lexer is complete. The parser is partially complete. I got a parsing solution in place for the purpose of presenting a proof of concept during a developer training session. After the first attempt at implementing the parser I found several issues with the design of the parsing algorithm. I will be rewriting the code relating to grammars and parsing to address this, but with the presentation finished I'll be taking a short break from this project.
